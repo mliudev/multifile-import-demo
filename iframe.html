@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iframe</title>
+  </head>
+  <body>
+    <script>
+      window.addEventListener("message", (event) => {
+        if (event.data.type === "fileSystem") {
+          const importMap = {
+            imports: Object.fromEntries(
+              Object.entries(event.data.files).map(([name, url]) => [
+                name.replace(".js", ""),
+                url,
+              ])
+            ),
+          };
+
+          // Add the import map
+          const importMapElement = document.createElement("script");
+          importMapElement.type = "importmap";
+          importMapElement.textContent = JSON.stringify(importMap);
+          document.head.appendChild(importMapElement);
+
+          // Now load main
+          const mainScript = document.createElement("script");
+          mainScript.type = "module";
+          mainScript.textContent = 'import { run } from "main"; run();';
+          document.body.appendChild(mainScript);
+        }
+      });
+    </script>
+  </body>
+</html>
