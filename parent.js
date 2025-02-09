@@ -3,8 +3,8 @@ const fileBlobs = {};
 
 const mockFiles = {
   "main.js": `
-        import { helper } from 'utils';
-        import { greet } from 'greeting';
+        import { helper } from 'utils.js';
+        import { greet } from 'greeting.js';
 
         export async function run() {
             console.log('Utils module:', helper);
@@ -12,6 +12,8 @@ const mockFiles = {
             greet('World');
             console.log('Main module loaded!');
         }
+
+        run();
     `,
   "utils.js": `
         export function helper() {
