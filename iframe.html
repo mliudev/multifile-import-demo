@@ -9,6 +9,17 @@
     <script>
       window.addEventListener("message", (event) => {
         if (event.data.type === "fileSystem") {
+          // check if importmap already exists
+          const existingImportMap = document.querySelector(
+            "script[type='importmap']"
+          );
+          if (existingImportMap) {
+            console.log("Import map already exists");
+            return;
+          }
+
+          const blobURLMap = {};
+
           const importMap = {
             imports: Object.fromEntries(
               Object.entries(event.data.files).map(([name, url]) => [
